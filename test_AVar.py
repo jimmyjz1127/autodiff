@@ -34,5 +34,15 @@ def test_div():
     y = AVar(0.0, der=0.0)
     with pytest.raises(ZeroDivisionError):
         _ = x / y
+
+
+def test_pow():
+    x = AVar(2.0, der=1.0)
+    y = AVar(3.0, der=1.0)
+
+    z = x ** y
+
+    assert z.val == 8 
+    assert z.der == 12
     
     
