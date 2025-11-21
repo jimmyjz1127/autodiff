@@ -1,7 +1,8 @@
 import math 
 import pytest
+import numpy as np
 
-from ArithVar import AVar, sin, cos, tan
+from ArithVar import AVar, sin, cos, tan, log
 
 def test_add():
     x = AVar(2.0, der=1.0)
@@ -78,3 +79,11 @@ def test_tan():
 
     assert z.val == math.tan(math.pi/6)
     assert z.der == (1/math.cos(math.pi/6))**2
+
+
+def test_log():
+    x = AVar(8, 1)
+    z = log(x)
+
+    assert z.val == math.log(8)
+    assert z.der == 1 / math.log(8)

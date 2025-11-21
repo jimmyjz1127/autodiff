@@ -41,6 +41,11 @@ class AVar:
 
         return AVar(self.val ** other.val, other.val * (self.val ** (other.val - 1)) * self.der)
     
+''' 
+    #################################################
+    ################ Trig Functions #################
+    #################################################
+'''
 def sin(x):
     if isinstance(x, AVar):
         return AVar(
@@ -65,3 +70,21 @@ def tan(x):
         der = (1.0 + val * val) * x.der
         return AVar(val, der)
     return math.tan(x)
+
+"""
+    ########################################
+    ########## Utility Functions ###########
+    ########################################
+"""
+def log(x):
+    if isinstance(x, AVar):
+        val = math.log(x.val)
+        der = x.der * 1.0/val
+        return AVar(val, der)
+    return math.log(x)
+
+"""
+    ########################################
+    ########## Utility Functions ###########
+    ########################################
+"""
