@@ -1,3 +1,6 @@
+import math
+import numpy as np
+
 class AVar:
     def __init__(self, val, der=0.0):
         '''
@@ -37,3 +40,28 @@ class AVar:
         other = other if isinstance(other, AVar) else AVar(other)
 
         return AVar(self.val ** other.val, other.val * (self.val ** (other.val - 1)) * self.der)
+    
+def sin(x):
+    if isinstance(x, AVar):
+        return AVar(
+            math.sin(x.val),
+            math.cos(x.val) * x.der
+        )
+
+    return math.sin(x)
+
+def cos(x):
+    if isinstance(x, AVar):
+        return AVar(
+            math.cos(x.val),
+            -math.sin(x.val) * x.der
+        )
+    return math.cos(x)
+
+
+def tan(x):
+    if isinstance(x, AVar):
+        val = math.tan(x.val)
+        der = (1.0 + val * val) * x.der
+        return AVar(val, der)
+    return math.tan(x)

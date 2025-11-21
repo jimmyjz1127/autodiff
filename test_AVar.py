@@ -1,7 +1,7 @@
 import math 
 import pytest
 
-from ArithVar import AVar
+from ArithVar import AVar, sin, cos, tan
 
 def test_add():
     x = AVar(2.0, der=1.0)
@@ -46,3 +46,35 @@ def test_pow():
     assert z.der == 12
     
     
+def test_sin():
+    x = AVar(math.pi, der=1.0)
+    z = sin(x)
+
+    assert z.val == math.sin(math.pi)
+    assert z.der == -1
+
+    x = AVar(math.pi / 4, der=1.0)
+    z = sin(x)
+
+    assert z.val == math.sin(math.pi / 4)
+    assert z.der == math.cos(math.pi / 4)
+
+def test_cos():
+    x = AVar(math.pi, der=1.0)
+    z = cos(x)
+
+    assert z.val == -1
+    assert z.der == -math.sin(math.pi)
+
+    x = AVar(math.pi / 4, der=1.0)
+    z = cos(x)
+
+    assert z.val == math.cos(math.pi / 4)
+    assert z.der == -math.sin(math.pi / 4)
+
+def test_tan():
+    x = AVar(math.pi/6, der=1.0)
+    z = tan(x)
+
+    assert z.val == math.tan(math.pi/6)
+    assert z.der == (1/math.cos(math.pi/6))**2
