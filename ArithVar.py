@@ -21,11 +21,25 @@ class AVar:
         other = other if isinstance(other, AVar) else AVar(other)
 
         return AVar(
-                        other.val + self.val, 
+                        self.val + other.val, 
                         self.der + other.der, 
+                        parents=(self,other), 
+                        op='sub'
+                    )
+    
+    def __sub__(self, other):
+        '''
+            Subtraction operation
+        '''
+        other = other if isinstance(other, AVar) else AVar(other)
+
+        return AVar(
+                        self.val - other.val, 
+                        self.der - other.der, 
                         parents=(self,other), 
                         op='add'
                     )
+
     
     def __mul__(self, other):
         ''' 
@@ -86,7 +100,7 @@ def cos(x):
         return AVar(
             math.cos(x.val),
             -math.sin(x.val) * x.der,
-            parents=(x),
+            parents=[x],
             op='cos'
         )
     return math.cos(x)
@@ -96,19 +110,19 @@ def tan(x):
     if isinstance(x, AVar):
         val = math.tan(x.val)
         der = (1.0 + val * val) * x.der
-        return AVar(val, der, parents=(x), op='tan')
+        return AVar(val, der, parents=(x,), op='tan')
     return math.tan(x)
 
 """
     ########################################
-    ########## Utility Functions ###########
+    ########## Other Functions ###########
     ########################################
 """
 def log(x):
     if isinstance(x, AVar):
         val = math.log(x.val)
         der = x.der / x.val
-        return AVar(val, der, parents=(x), op='log')
+        return AVar(val, der, parents=[x], op='log')
     return math.log(x)
 
 """
@@ -130,6 +144,7 @@ def trace(root):
 
 op_dict = {
     "add":"+",
+    "sub":"-",
     "mul":"*",
     "div":"/",
     "pow":"^",

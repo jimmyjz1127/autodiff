@@ -13,6 +13,15 @@ def test_add():
     assert z.val == 5.0
     assert z.der == 1.0
 
+def test_sub():
+    x = AVar(2.0, der=2.0)
+    y = AVar(3.0, der=1.0)
+
+    z = x - y
+
+    assert z.val == -1.0
+    assert z.der == 1.0
+
 def test_mult():
     x = AVar(2.0, der=3.0)
     y = AVar(3.0, der=4.0)
