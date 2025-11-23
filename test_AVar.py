@@ -2,8 +2,13 @@ import math
 import pytest
 import numpy as np
 
-from ArithVar import AVar, sin, cos, tan, log
+from ArithVar import AVar, sin, cos, tan, log, exp
 
+"""
+    ##############################################
+    ############ Aithmetic Operations ############
+    ##############################################
+"""
 def test_add():
     x = AVar(2.0, der=1.0)
     y = AVar(3.0, der=0.0)
@@ -45,6 +50,11 @@ def test_div():
     with pytest.raises(ZeroDivisionError):
         _ = x / y
 
+"""
+    ###############################################
+    ########## Non-Arithmetic Operations ##########
+    ###############################################
+"""
 
 def test_pow():
     x = AVar(2.0, der=1.0)
@@ -103,3 +113,17 @@ def test_log():
 
     assert z.val == math.log(8)
     assert z.der == x.der / x.val
+
+
+def test_exp():
+    x = AVar(3, 1.0)
+    z = exp(x)
+
+    assert z.val == math.exp(3)
+    assert z.der == math.exp(3)
+
+    c = AVar(3.0, 0.0)
+    z = exp(x ** c)
+
+    assert z.val == math.exp(27)
+    assert z.der == (3 * 3 ** 2) * math.exp(27)

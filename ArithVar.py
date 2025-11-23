@@ -78,6 +78,7 @@ class AVar:
         der = val * (v.der * math.log(u.val) + v.val * (u.der / u.val))
 
         return AVar(val, der, parents=(u, v), op="pow")
+     
     
 ''' 
     #################################################
@@ -113,6 +114,24 @@ def tan(x):
         return AVar(val, der, parents=(x,), op='tan')
     return math.tan(x)
 
+def arccos(x):
+    pass
+
+def arcsin(x):
+    pass 
+
+def arctan(x):
+    pass
+
+def sinh(x):
+    pass
+
+def cosh(x):
+    pass 
+
+def tanh(x):
+    pass
+
 """
     ########################################
     ########## Other Functions ###########
@@ -124,6 +143,16 @@ def log(x):
         der = x.der / x.val
         return AVar(val, der, parents=[x], op='log')
     return math.log(x)
+
+def exp(x):
+    if isinstance(x, AVar):
+        val = math.exp(x.val)
+        der = x.der * math.exp(x.val)
+        return AVar(val, der, parents=[x], op="exp")
+    return math.exp(x)
+
+def sigmoid(x):
+    pass
 
 """
     ########################################
@@ -150,7 +179,9 @@ op_dict = {
     "pow":"^",
     "sin":"sin(.)",
     "cos":"cos(.)",
-    "tan":"tan(.)"
+    "tan":"tan(.)",
+    "log":"log",
+    "exp":"e^(.)"
 }
 
 
@@ -173,7 +204,7 @@ def draw_graph(root):
 
 x1 = AVar(5.0,1.0)
 
-z = 3*(x1**sin(x1))
+z = (2*log(exp(3*x1))) +  3*(x1**sin(x1))
 
 print(z.val, z.der)
 
