@@ -39,12 +39,19 @@ def test_div():
 
 def test_pow():
     x = AVar(2.0, der=1.0)
-    y = AVar(3.0, der=1.0)
+    y = AVar(3.0, der=0.0)
 
     z = x ** y
 
     assert z.val == 8 
     assert z.der == 12
+
+    # x ^ g(x)
+    c = AVar(2.0, der=0.0)
+    z = x ** (c * x)
+
+    assert z.val == 16
+    assert z.der == 16 * (2 * math.log(2) + 2)
     
     
 def test_sin():
@@ -86,4 +93,4 @@ def test_log():
     z = log(x)
 
     assert z.val == math.log(8)
-    assert z.der == 1 / math.log(8)
+    assert z.der == x.der / x.val
